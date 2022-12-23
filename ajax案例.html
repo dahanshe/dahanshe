@@ -134,8 +134,26 @@
             const url = URL.createObjectURL(file)
             img.src = url
         })
-        console.log(url);
 
+        //点击保存更新接口数据
+        btn.addEventListener('click', async function (e) {
+            //阻止默认事件
+            e.preventDefault()
+            //上传头像
+            const fd = new FormData()
+            fd.append('avatar', upload.files[0])
+            const { data: data1 } = await axios.post('/api/file', fd)
+            console.log(data1);
+            const { data: data2 } = await axios.put('/api/settings', {
+                nickname: nickname.value,
+                province: province.value,
+                city: city.value,
+                area: area.value,
+                avatar: data1.data.url
+            })
+            console.log(data2);
+            getUserInfo()
+        })
     </script>
 </body>
 
