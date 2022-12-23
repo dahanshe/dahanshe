@@ -123,7 +123,19 @@
             const { data } = await axios.get(`api/area?pname=${province.value}&cname=${city.value}`)
             area.innerHTML = data.data.map(item => `<option value="${item}">${item}</option>`).join('')
         })
-        
+
+        //点击图片弹出选择文件弹窗
+        img.addEventListener('click', function () {
+            upload.click()
+        })
+        //选择图片更换头像
+        upload.addEventListener('change', function () {
+            const file = this.files[0]
+            const url = URL.createObjectURL(file)
+            img.src = url
+        })
+        console.log(url);
+
     </script>
 </body>
 
