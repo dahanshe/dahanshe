@@ -102,7 +102,7 @@
             console.log(data2);
             city.innerHTML = data2.data.map(item => `<option value="${item}">${item}</option>`).join('')
             city.value = data.data.city
-            
+
             const { data: data3 } = await axios.get(`/api/area?pname=${data.data.province}&cname=${city.value}`)
             console.log(data3);
             area.innerHTML = data3.data.map(item => `<option value="${item}">${item}</option>`).join('')
@@ -111,6 +111,19 @@
             img.src = data.data.avatar
         }
         getUserInfo()
+
+        //省市县联动
+        province.addEventListener('change', async function () {
+            const { data: data1 } = await axios.get(`api/city?pname=${province.value}`)
+            city.innerHTML = data1.data.map(item => `<option value="${item}">${item}</option>`).join('')
+            const { data: data2 } = await axios.get(`api/area?pname=${province.value}&cname=${city.value}`)
+            area.innerHTML = data2.data.map(item => `<option value="${item}">${item}</option>`).join('')
+        })
+        city.addEventListener('change', async function () {
+            const { data } = await axios.get(`api/area?pname=${province.value}&cname=${city.value}`)
+            area.innerHTML = data.data.map(item => `<option value="${item}">${item}</option>`).join('')
+        })
+        
     </script>
 </body>
 
